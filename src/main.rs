@@ -12,6 +12,7 @@ enum Puzzle {
     Day1Puzzle1,
     Day1Puzzle2,
     Day2Puzzle1,
+    Day2Puzzle2,
 }
 
 #[derive(Parser)]
@@ -35,7 +36,11 @@ fn main() {
             println!("Simularity Score is {}", result)
         }
         Puzzle::Day2Puzzle1 => {
-            let result = check_levels_safe(contents);
+            let result = check_levels_safe(contents, false);
+            println!("Num safe reports {}", result)
+        }
+        Puzzle::Day2Puzzle2 => {
+            let result = check_levels_safe(contents, true);
             println!("Num safe reports {}", result)
         }
     }

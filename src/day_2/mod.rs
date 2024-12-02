@@ -25,11 +25,31 @@ fn is_safe(level: Vec<usize>) -> bool {
     true
 }
 
-pub fn check_levels_safe(input: String) -> usize {
+fn is_safe_with_dampener(level: Vec<usize>) -> bool {
+    if !is_safe(level.clone()) {
+        for i in 0..level.len() {
+            let mut slice = vec![];
+            slice.extend_from_slice(&level[0..i]);
+            slice.extend_from_slice(&level[i + 1..level.len()]);
+            if is_safe(slice) {
+                return true;
+            }
+        }
+        return false;
+    }
+    true
+}
+
+pub fn check_levels_safe(input: String, dampener: bool) -> usize {
+    let checker = if dampener {
+        is_safe_with_dampener
+    } else {
+        is_safe
+    };
     let levels = parse_to_levels(input);
     levels
         .into_iter()
-        .map(|level| if is_safe(level) { 1 } else { 0 })
+        .map(|level| if checker(level) { 1 } else { 0 })
         .sum()
 }
 
@@ -37,7 +57,7 @@ pub fn check_levels_safe(input: String) -> usize {
 mod tests {
     use std::fs;
 
-    use crate::day_2::{is_safe, parse_to_levels};
+    use crate::day_2::{is_safe, is_safe_with_dampener, parse_to_levels};
 
     #[test]
     fn test_parse_to_levels() {
@@ -63,5 +83,15 @@ mod tests {
         assert_eq!(is_safe(vec![1, 3, 2, 4, 5]), false);
         assert_eq!(is_safe(vec![8, 6, 4, 4, 1]), false);
         assert_eq!(is_safe(vec![1, 3, 6, 7, 9]), true);
+    }
+
+    #[test]
+    fn test_is_safe_with_dampener() {
+        assert_eq!(is_safe_with_dampener(vec![7, 6, 4, 2, 1]), true);
+        assert_eq!(is_safe_with_dampener(vec![1, 2, 7, 8, 9]), false);
+        assert_eq!(is_safe_with_dampener(vec![9, 7, 6, 2, 1]), false);
+        assert_eq!(is_safe_with_dampener(vec![1, 3, 2, 4, 5]), true);
+        assert_eq!(is_safe_with_dampener(vec![8, 6, 4, 4, 1]), true);
+        assert_eq!(is_safe_with_dampener(vec![1, 3, 6, 7, 9]), true);
     }
 }
