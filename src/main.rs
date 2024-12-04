@@ -7,7 +7,7 @@ use std::fs;
 use clap::{Parser, ValueEnum};
 use day_1::{calculate_distance, calculate_simularity_score};
 use day_2::check_levels_safe;
-use day_3::decode_memory;
+use day_3::{decode_memory, decode_memory_full};
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
 enum Puzzle {
@@ -16,6 +16,7 @@ enum Puzzle {
     Day2Puzzle1,
     Day2Puzzle2,
     Day3Puzzle1,
+    Day3Puzzle2,
 }
 
 #[derive(Parser)]
@@ -48,6 +49,10 @@ fn main() {
         }
         Puzzle::Day3Puzzle1 => {
             let result = decode_memory(contents);
+            println!("Memory decoded {}", result)
+        }
+        Puzzle::Day3Puzzle2 => {
+            let result = decode_memory_full(contents);
             println!("Memory decoded {}", result)
         }
     }
