@@ -1,11 +1,13 @@
 mod day_1;
 mod day_2;
+mod day_3;
 
 use std::fs;
 
 use clap::{Parser, ValueEnum};
 use day_1::{calculate_distance, calculate_simularity_score};
 use day_2::check_levels_safe;
+use day_3::decode_memory;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
 enum Puzzle {
@@ -13,6 +15,7 @@ enum Puzzle {
     Day1Puzzle2,
     Day2Puzzle1,
     Day2Puzzle2,
+    Day3Puzzle1,
 }
 
 #[derive(Parser)]
@@ -42,6 +45,10 @@ fn main() {
         Puzzle::Day2Puzzle2 => {
             let result = check_levels_safe(contents, true);
             println!("Num safe reports {}", result)
+        }
+        Puzzle::Day3Puzzle1 => {
+            let result = decode_memory(contents);
+            println!("Memory decoded {}", result)
         }
     }
 }
