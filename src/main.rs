@@ -1,6 +1,7 @@
 mod day_1;
 mod day_2;
 mod day_3;
+mod day_5;
 
 use std::fs;
 
@@ -8,6 +9,7 @@ use clap::{Parser, ValueEnum};
 use day_1::{calculate_distance, calculate_simularity_score};
 use day_2::check_levels_safe;
 use day_3::{decode_memory, decode_memory_full};
+use day_5::check_puzzle_5;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
 enum Puzzle {
@@ -17,6 +19,7 @@ enum Puzzle {
     Day2Puzzle2,
     Day3Puzzle1,
     Day3Puzzle2,
+    Day5Puzzle1,
 }
 
 #[derive(Parser)]
@@ -54,6 +57,10 @@ fn main() {
         Puzzle::Day3Puzzle2 => {
             let result = decode_memory_full(contents);
             println!("Memory decoded {}", result)
+        }
+        Puzzle::Day5Puzzle1 => {
+            let result = check_puzzle_5(contents);
+            println!("Total {}", result)
         }
     }
 }
